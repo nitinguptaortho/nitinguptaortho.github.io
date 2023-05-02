@@ -1,0 +1,8 @@
+{
+  "scripts": {
+    "sass": "sass --watch ./scss/bootstrap.scss:./css/bootstrap.min.css"
+  },
+  "dependencies": {
+    "sass": "1.62.1"
+  }
+}
