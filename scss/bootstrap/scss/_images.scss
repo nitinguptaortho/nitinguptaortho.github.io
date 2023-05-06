@@ -8,7 +8,9 @@
 .img-fluid {
   @include img-fluid();
 }
-
+.img-fluid-testimonial {
+  @include img-fluid-testimonial();
+}
 
 // Image thumbnails
 .img-thumbnail {
