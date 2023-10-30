@@ -3,6 +3,16 @@
     "sass": "sass --watch ./scss/bootstrap.scss:./css/bootstrap.min.css"
   },
   "dependencies": {
-    "sass": "1.62.1"
+    "sass": "1.62.1",
+    "browser-sync": "^2.29.3",
+    "gulp": "^4.0.2",
+    "gulp-file-include": "^2.3.0",
+    "gulp-header-comment": "^0.10.0",
+    "gulp-htmlmin": "^5.0.1",
+    "gulp-prettier": "^5.0.0"
+  },
+  "devDependencies": {
+    "gulp-imagemin": "^8.0.0",
+    "gulp-sitemap": "^8.0.0"
   }
 }

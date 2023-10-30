@@ -1,0 +1,154 @@
+<!doctype html><!--
+ // Website for Dr. Nitin Gupta by Vedik Dev (Himanshu Jangid)
+--><html lang="en"><head><meta charset="utf-8"><title>Dr. Nitin Gupta | Orthopedics surgeon</title><meta content="width=device-width,initial-scale=1" name="viewport"><meta content="" name="keywords"><meta content="" name="description"><!-- Favicon --><link href="img/favicon.ico" rel="icon"><!-- Google Web Fonts --><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&family=Roboto:wght@500;700;900&display=swap" rel="stylesheet"><!-- Icon Font Stylesheet --><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet"><link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet"><!-- Libraries Stylesheet --><link href="lib/animate/animate.min.css" rel="stylesheet"><link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet"><link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet"><!-- Customized Bootstrap Stylesheet --><link href="css/bootstrap.min.css" rel="stylesheet"><!-- Template Stylesheet --><link href="css/style.css" rel="stylesheet"><!-- firebase - setup --><script type="module">// Import the functions you need from the SDKs you need
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+      import {
+        getFirestore,
+        doc,
+        getDocs,
+        collection,
+        query,
+      } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+      import {
+        getStorage,
+        ref,
+        uploadBytes,
+        getDownloadURL,
+      } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-storage.js";
+      // TODO: Add SDKs for Firebase products that you want to use
+      // https://firebase.google.com/docs/web/setup#available-libraries
+
+      // Your web app's Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyBdx0t7yfI8LJjnTg999tJKTKvjur5qnVc",
+        authDomain: "dr-nitin-gupta.firebaseapp.com",
+        projectId: "dr-nitin-gupta",
+        storageBucket: "dr-nitin-gupta.appspot.com",
+        messagingSenderId: "874167543801",
+        appId: "1:874167543801:web:668f67d00ec9dd393cff28",
+      };
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      // Initialize Cloud Firestore and get a reference to the service
+      const db = getFirestore(app);
+      // const dbRef = collection(db, "insights");
+
+      const dbRef = collection(db, "insights");
+      // const docSnap = await getDoc(dbRef);
+
+      const q = query(dbRef);
+
+      const querySnapshot = await getDocs(q);
+
+      var existingElement = document.getElementById("content-ref");
+      var newDiv = document.createElement("div");
+
+      // Optionally, add some content to the <div>
+      // newDiv.innerHTML = "This is a new div.";
+
+      // Append the <div> to an existing element in the document
+      // existingElement.appendChild(newDiv);
+
+      querySnapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+
+        const description = doc.data().description;
+        const blogTitle = doc.data().title;
+        const imageSrc = doc.data().fileUrl;
+        const altText = doc.data().fileName;
+        const contentType = doc.data().fileType.split("/")[0];
+        const tagData =
+          contentType === "image"
+            ? `<img
+                       src="${imageSrc}"
+                       controls
+                       width="100%"
+                       alt="${altText}"
+                     />`
+            : `<video
+                     src="${imageSrc}"
+                       autoplay
+                       controls
+                       width="100%"
+                       alt="${altText}"
+                     />`;
+
+        existingElement.innerHTML =
+          `<div class="container-xxl py-5">
+         <div class="container">
+           <div class="row g-5">
+             <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.5s">
+               <div class="rounded h-100 d-flex align-items-center p-5">
+                 ${tagData}
+
+               </div>
+             </div>
+             <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
+               <h3 class="mb-4">${blogTitle}</h3>
+               <p class="mb-4">
+                 ${description}
+               </p>
+
+             </div>
+           </div>
+         </div>
+       </div>` + existingElement.innerHTML;
+        console.log(doc.id, " => ", doc.data());
+      });
+
+      // if (docSnap.exists()) {
+      //   console.log("Document data:", docSnap.data());
+      // } else {
+      //   // docSnap.data() will be undefined in this case
+      //   console.log("No such document!");
+      // }
+      // const storage = getStorage();</script></head><body><!-- Spinner Start --><div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center"><div class="spinner-grow text-primary" style="width: 3rem; height: 3rem" role="status"><span class="sr-only">Loading...</span></div></div><!-- Spinner End --><!-- Topbar Start --><div class="container-fluid bg-light p-0 wow fadeIn" data-wow-delay="0.1s"><div class="row gx-0 d-none d-lg-flex"><div class="col-lg-7 px-5 text-start"><div class="h-100 d-inline-flex align-items-center py-3 me-4"><small class="fa fa-map-marker-alt text-primary me-2"></small> <small>Bone & Joint Clinic, Bani Park Hospital, D-9, Kabir Marg, Bani Park, Jaipur</small></div><div class="h-100 d-inline-flex align-items-center py-3"><small class="far fa-clock text-primary me-2"></small> <small>Mon - Sat : 8 AM - 9:30 AM</small></div></div><div class="col-lg-5 px-5 text-end"><div class="h-100 d-inline-flex align-items-center py-3 me-4"><small class="fa fa-phone-alt text-primary me-2"></small> <small>+91 9772058476</small></div><div class="h-100 d-inline-flex align-items-center"><a class="btn btn-sm-square rounded-circle bg-white text-primary me-1" target="_blank" href="https://www.facebook.com/docnitinortho"><i class="fab fa-facebook-f"></i></a><!-- <a class="btn btn-sm-square rounded-circle bg-white text-primary me-1" href=""><i class="fab fa-twitter"></i></a> --> <a class="btn btn-sm-square rounded-circle bg-white text-primary me-1" target="_blank" href="https://www.linkedin.com/in/nitin-gupta-36161536"><i class="fab fa-linkedin-in"></i></a> <a class="btn btn-sm-square rounded-circle bg-white text-primary me-0" target="_blank" href="https://www.instagram.com/drnitingupta.ortho/"><i class="fab fa-instagram"></i></a></div></div></div></div><!-- Topbar End --><!-- Navbar Start --><nav class="navbar navbar-expand-lg bg-white navbar-light sticky-top p-0 wow fadeIn" data-wow-delay="0.1s"><a href="index.html" class="navbar-brand d-flex align-items-center px-4 px-lg-5"><h1 class="m-0 text-primary"><i class="far fa-hospital me-3"></i>Dr. Nitin Gupta</h1></a><button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"><span class="navbar-toggler-icon"></span></button><div class="collapse navbar-collapse" id="navbarCollapse"><div class="navbar-nav ms-auto p-4 p-lg-0"><a href="index.html" class="nav-item nav-link @@home">Home</a> <a href="about.html" class="nav-item nav-link @@about">About</a> <a href="service.html" class="nav-item nav-link @@services">Service</a> <a href="insights.html" class="nav-item nav-link active">Insights</a><!-- <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
+                    <div class="dropdown-menu rounded-0 rounded-bottom m-0">
+                        <a href="feature.html" class="dropdown-item">Feature</a>
+                        <a href="team.html" class="dropdown-item">Our Doctor</a>
+                        <a href="appointment.html" class="dropdown-item">Appointment</a>
+                        <a href="testimonial.html" class="dropdown-item">Testimonial</a>
+                        <a href="404.html" class="dropdown-item">404 Page</a>
+                    </div>
+                </div> --> <a href="contact.html" class="nav-item nav-link @@contact">Contact</a> <a href="https://wa.me/919772058476" class="nav-item bg-primary p-2 text-light nav-link d-block d-lg-none">Appointment <i class="fa fa-arrow-right ms-3"></i></a></div><a href="https://wa.me/919772058476" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block">Appointment<i class="fa fa-arrow-right ms-3"></i></a></div></nav><!-- Navbar End --><!-- Page Header Start --><div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s"><div class="container py-5"><h1 class="display-3 text-white mb-3 animated slideInDown">Insights</h1><nav aria-label="breadcrumb animated slideInDown"><ol class="breadcrumb text-uppercase mb-0"><li class="breadcrumb-item"><a class="text-white" href="#">Home</a></li><li class="breadcrumb-item"><a class="text-white" href="#">Pages</a></li><li class="breadcrumb-item text-primary active" aria-current="page">Insights</li></ol></nav></div></div><!-- Page Header End --><!-- Appointment Start --><div id="content-ref"><div class="container-xxl py-5"><div class="container"><div class="row g-5"><div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s"><h3 class="mb-4">We bring back all joint movement. Patient able to do normal day to day activity. Happy Patient!!!</h3><p class="mb-4">As physical therapists, our ultimate goal is to help patients regain their physical function and get back to their normal daily activities. One of the most rewarding aspects of our work is seeing our patients achieve their goals and experiencing their joy and satisfaction. We take great pride in being able to bring back joint movement for our patients and see them return to their normal range of motion. Whether it's through exercises, manual therapy, or other techniques, we work tirelessly to help our patients achieve their desired outcomes. We believe that every patient deserves to feel happy and fulfilled with their physical abilities, and it's our pleasure to help make that a reality. Seeing the smiles on our patients' faces as they are able to resume their day-to-day activities is truly the greatest reward for us as physical therapists.</p><!-- <div
+              class="bg-light rounded d-flex align-items-center p-1 py-4 mb-4"
+            >
+              <img src="./img/orthopedics-2.jpg" width="100%" alt="" />
+            </div> --></div><div class="col-lg-6 wow fadeInUp" data-wow-delay="0.5s"><div class="rounded h-100 d-flex align-items-center p-5"><video src="./videos/video-1.mp4" autoplay controls width="100%" alt=""></div></div></div></div></div><div class="container-xxl py-5"><div class="container"><div class="row g-5"><div class="col-lg-6 wow fadeInUp" data-wow-delay="0.5s"><div class="rounded h-100 d-flex align-items-center p-5"><video src="./videos/video-2.mp4" controls width="100%" alt=""></div></div><div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s"><h3 class="mb-4">World Arthritis Day!!!</h3><p class="mb-4">World Arthritis Day is an annual event observed globally on October 12th to raise awareness about arthritis, a condition that affects millions of people worldwide. This day serves as an opportunity for individuals and organizations to come together and promote awareness about arthritis, its symptoms, and the impact it has on people's lives. It also highlights the importance of early diagnosis and proper management of arthritis to improve the quality of life of those affected. World Arthritis Day aims to promote research into the causes and treatment of arthritis, as well as encourage support for those living with this condition. It is a day for people with arthritis to come together, share their experiences, and find support from one another. By promoting understanding and awareness about arthritis, we can help reduce the impact of this condition on individuals and society as a whole.</p><!-- <div
+              class="bg-light rounded d-flex align-items-center p-1 py-4 mb-4"
+            >
+              <img src="./img/orthopedics-2.jpg" width="100%" alt="" />
+            </div> --></div></div></div></div><div class="container-xxl py-5"><div class="container"><div class="row g-5"><div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s"><h3 class="mb-4">There is no restriction of movement. Able to move through full range of motion without any pain.</h3><p class="mb-4">As physical therapists, we understand the importance of movement and its impact on our patients' daily lives. One of our primary goals is to help patients achieve pain-free movement, allowing them to return to their normal activities without restriction. We take a comprehensive approach to patient care, using a variety of techniques and exercises tailored to each patient's specific needs. Our focus is on restoring the body's natural range of motion while minimizing pain and discomfort. We work closely with our patients to develop personalized treatment plans that include stretching, strengthening, and other forms of therapy to help them achieve their movement goals. When our patients can move through their full range of motion without any pain, it's a testament to the effectiveness of our treatments and the hard work of both the patient and therapist. Seeing our patients regain their mobility and return to the activities they enjoy is one of the most rewarding aspects of our work.</p><!-- <div
+              class="bg-light rounded d-flex align-items-center p-1 py-4 mb-4"
+            >
+              <img src="./img/orthopedics-2.jpg" width="100%" alt="" />
+            </div> --></div><div class="col-lg-6 wow fadeInUp" data-wow-delay="0.5s"><div class="rounded h-100 d-flex align-items-center p-5"><video src="./videos/video-3.mp4" controls width="100%" alt=""></div></div></div></div></div><div class="container-xxl py-5"><div class="container"><div class="row g-5"><div class="col-lg-6 wow fadeInUp" data-wow-delay="0.5s"><div class="rounded h-100 d-flex align-items-center p-5"><img src="./img/image-5.webp" controls width="100%" alt=""></div></div><div class="col-lg-6 wow fadeInUp" data-wow-delay="0.5s"><div class="rounded h-100 d-flex align-items-center p-5"><video src="./videos/video-5.mp4" controls width="100%" height="300px" alt=""></div></div></div></div></div><div class="container-xxl py-5"><div class="container"><div class="row g-5"><div class="col-lg-6 wow fadeInUp" data-wow-delay="0.5s"><div class="rounded h-100 d-flex align-items-center p-5"><img src="./img/image-6.avif" controls width="100%" alt=""></div></div><div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s"><h3 class="mb-4">WHY SHOULD YOUNG HAVE ALL THE FUN!!!</h3><p class="mb-4">The phrase "Why should young have all the fun?" is particularly relevant when it comes to patients who have undergone bilateral total knee replacement. This procedure is often performed on older patients who may have experienced years of joint pain and limited mobility. But just because someone has undergone this surgery doesn't mean they have to give up on their favorite activities or stop living life to the fullest. In fact, with proper rehabilitation and dedication, many patients are able to resume their normal routines and even take on new challenges.<br>For example, we recently had a patient who underwent bilateral total knee replacement and was determined to regain their mobility and independence. With the help of physical therapy, they were able to gradually increase their strength and flexibility, and within eight years of the surgery, they were able to do all their routine activities without any issues. They were even able to take up new activities like hiking and swimming, something they never thought would be possible after their surgery. This patient's experience is a powerful testament to the idea that age and surgery should never limit one's ability to enjoy life and do the things they love. With the right mindset, support, and therapy, patients can overcome the challenges of joint replacement surgery and continue to have fun and live life to the fullest, no matter their age.</p><!-- <div
+              class="bg-light rounded d-flex align-items-center p-1 py-4 mb-4"
+            >
+              <img src="./img/orthopedics-2.jpg" width="100%" alt="" />
+            </div> --></div></div></div></div></div><!-- Appointment End --><!-- Footer Start --><div class="container-fluid bg-dark text-light footer mt-5 pt-5 wow fadeIn" data-wow-delay="0.1s"><div class="container py-5"><div class="row g-5"><div class="col-lg-3 col-md-6"><h5 class="text-light mb-4">Address</h5><p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>Bone & Joint Clinic, Bani Park Hospital, D-9, Kabir Marg, Bani Park, Jaipur</p><p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+91 9772058476</p><p class="mb-2"><i class="fa fa-envelope me-3"></i>nitingupta9@hotmail.com</p><div class="d-flex pt-2"><!-- <a class="btn btn-outline-light btn-social rounded-circle" href=""><i class="fab fa-twitter"></i></a> --> <a class="btn btn-outline-light btn-social rounded-circle" target="_blank" href="https://www.facebook.com/docnitinortho"><i class="fab fa-facebook-f"></i></a> <a class="btn btn-outline-light btn-social rounded-circle" target="_blank" href="https://www.instagram.com/drnitingupta.ortho/"><i class="fab fa-instagram"></i></a> <a class="btn btn-outline-light btn-social rounded-circle" target="_blank" href="https://www.linkedin.com/in/nitin-gupta-36161536"><i class="fab fa-linkedin-in"></i></a></div></div><!-- <div class="col-lg-3 col-md-6">
+                    <h5 class="text-light mb-4">Services</h5>
+                    <a class="btn btn-link" href="">Cardiology</a>
+                    <a class="btn btn-link" href="">Pulmonary</a>
+                    <a class="btn btn-link" href="">Neurology</a>
+                    <a class="btn btn-link" href="">Orthopedics</a>
+                    <a class="btn btn-link" href="">Laboratory</a>
+                </div> --><div class="col-lg-3 col-md-6"><h5 class="text-light mb-4">Quick Links</h5><a class="btn btn-link" href="/">Home</a> <a class="btn btn-link" href="/about.html">About Us</a> <a class="btn btn-link" href="/contact.html">Contact Us</a> <a class="btn btn-link" href="/service.html">Services</a> <a class="btn btn-link" href="https://wa.me/919772058476">Appointment</a><!-- <a class="btn btn-link" href="">Support</a> --></div><div class="col-12 col-lg-3 col-md-6"><h2 class="text-light mb-4">Dr. Nitin Gupta</h2><!-- <a class="btn btn-link" href="">Support</a> --></div><!-- <div class="col-lg-3 col-md-6">
+                    <h5 class="text-light mb-4">Newsletter</h5>
+                    <p>Dolor amet sit justo amet elitr clita ipsum elitr est.</p>
+                    <div class="position-relative mx-auto" style="max-width: 400px;">
+                        <input class="form-control border-0 w-100 py-3 ps-4 pe-5" type="text" placeholder="Your email">
+                        <button type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">SignUp</button>
+                    </div>
+                </div> --></div></div><div class="container"><div class="copyright"><div class="row"><!-- <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                        &copy; <a class="border-bottom" href="#">Copyright  2023</a> 
+                    </div> --><!-- <div class="col-md-6 text-center text-md-end"> --><!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/--><!-- Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a> --><!-- </br>
+                        Distributed By <a class="border-bottom" href="https://themewagon.com" target="_blank">ThemeWagon</a>
+                    </div> --></div></div></div></div><!-- Footer End --><!-- Back to Top --> <a href="#" class="btn btn-lg btn-primary btn-lg-square rounded-circle back-to-top"><i class="bi bi-arrow-up"></i></a> <a href="https://wa.me/919772058476" class="btn btn-lg btn-lg-square rounded-circle text-white" style="position: fixed;
+    bottom: 0;
+    left: 0;
+    margin-bottom: 45px;
+    margin-left: 20px;
+    background: #00ff00;"><i class="bi bi-whatsapp"></i></a><!-- JavaScript Libraries --><script src="https://code.jquery.com/jquery-3.4.1.min.js"></script><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script><script src="lib/wow/wow.min.js"></script><script src="lib/easing/easing.min.js"></script><script src="lib/waypoints/waypoints.min.js"></script><script src="lib/counterup/counterup.min.js"></script><script src="lib/owlcarousel/owl.carousel.min.js"></script><script src="lib/tempusdominus/js/moment.min.js"></script><script src="lib/tempusdominus/js/moment-timezone.min.js"></script><script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script><!-- Template Javascript --><script src="js/main.js"></script></body></html>
