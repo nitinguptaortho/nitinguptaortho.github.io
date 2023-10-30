@@ -72,6 +72,7 @@ gulp.task("copy-videos", function () {
 
 gulp.task("watch:html", function () {
   gulp.watch(["src/**"], gulp.series("html"));
+  gulp.watch(["src/**"]).on("change", bs.reload);
 });
 
 gulp.task(
