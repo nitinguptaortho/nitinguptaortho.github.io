@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Dr. Nitin Gupta | Orthopedics surgeon</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta content="" name="keywords" />
+    <meta content="" name="description" />
+
+    @@include('header-includes.htm')
+
+    <!-- firebase setup -->
+    <script type="module">
+      // Import the functions you need from the SDKs you need
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+      import {
+        getFirestore,
+        doc,
+        setDoc,
+        addDoc,
+        collection,
+      } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+      import {
+        getStorage,
+        ref,
+        uploadBytes,
+        getDownloadURL,
+      } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-storage.js";
+      // TODO: Add SDKs for Firebase products that you want to use
+      // https://firebase.google.com/docs/web/setup#available-libraries
+
+      // Your web app's Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyBdx0t7yfI8LJjnTg999tJKTKvjur5qnVc",
+        authDomain: "dr-nitin-gupta.firebaseapp.com",
+        projectId: "dr-nitin-gupta",
+        storageBucket: "dr-nitin-gupta.appspot.com",
+        messagingSenderId: "874167543801",
+        appId: "1:874167543801:web:668f67d00ec9dd393cff28",
+      };
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      // Initialize Cloud Firestore and get a reference to the service
+      const db = getFirestore(app);
+      const dbRef = collection(db, "insights");
+      const storage = getStorage();
+
+      async function handleSubmit(event) {
+        event.preventDefault();
+
+        const data = new FormData(event.target);
+
+        const value = Object.fromEntries(data.entries());
+
+        // value.topics = data.getAll("topics");
+
+        console.log(value.uploadFile.name);
+        const storageRef = ref(storage, `content/${value.uploadFile.name}`);
+        const metadata = value.uploadFile;
+
+        const uploadFileName = metadata.name;
+        const uploadType = metadata.type;
+
+        // Upload the file and metadata
+        const uploadTask = await uploadBytes(
+          storageRef,
+          value.uploadFile,
+          metadata
+        );
+
+        getDownloadURL(uploadTask.ref)
+          .then((downloadURL) => {
+            console.log(
+              "🚀 ~ file: upload.html:107 ~ .then ~ downloadURL:",
+              downloadURL
+            );
+            const result = addDoc(dbRef, {
+              title: value.title,
+              fileUrl: downloadURL,
+              description: value.description,
+              fileName: uploadFileName,
+              fileType: uploadType,
+            });
+          })
+          .then((result) => {
+            console.log(result, "dfsdf ");
+            alert("Content Uploaded Successfully!!");
+            window.location.href = "/";
+          });
+
+        // console.log("Upload", uploadTask);
+      }
+
+      const form = document.querySelector("form");
+      form.addEventListener("submit", handleSubmit);
+      //   demo data check
+      // Add a new document in collection "cities"
+
+      //   console.log(result, "data");
+    </script>
+  </head>
+
+  <body>
+    @@include('navbar.htm', {"upload":"active"})
+    <!-- Page Header Start -->
+    <div
+      class="container-fluid page-header py-5 mb-5 wow fadeIn"
+      data-wow-delay="0.1s"
+    >
+      <div class="container py-5">
+        <h1 class="display-3 text-white mb-3 animated slideInDown">
+          Upload Content
+        </h1>
+        <nav aria-label="breadcrumb animated slideInDown">
+          <ol class="breadcrumb text-uppercase mb-0">
+            <li class="breadcrumb-item">
+              <a class="text-white" href="#">Home</a>
+            </li>
+            <li class="breadcrumb-item">
+              <a class="text-white" href="#">Pages</a>
+            </li>
+            <li class="breadcrumb-item text-primary active" aria-current="page">
+              Upload Content
+            </li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+    <!-- Page Header End -->
+
+    <!-- Contact Start -->
+    <div class="container-xxl py-5">
+      <div class="container">
+        <div class="row g-4">
+          <div class="col-lg-12 wow fadeIn" data-wow-delay="0.1s">
+            <div class="bg-light rounded p-5">
+              <p class="d-inline-block border rounded-pill py-1 px-4">
+                Upload Your Content
+              </p>
+              <h1 class="mb-4">Upload Content</h1>
+
+              <form>
+                <div class="row g-3">
+                  <div class="col-md-12">
+                    <div class="form-floating">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="name"
+                        name="title"
+                        placeholder="Title"
+                      />
+                      <label for="name">Title</label>
+                    </div>
+                  </div>
+                  <!-- <div class="col-md-6">
+                    <div class="form-floating">
+                      <input
+                        type="email"
+                        class="form-control"
+                        id="email"
+                        placeholder="Your Email"
+                      />
+                      <label for="email">Your Email</label>
+                    </div>
+                  </div> -->
+                  <div class="col-12">
+                    <div class="form-floating">
+                      <input
+                        type="file"
+                        class="form-control"
+                        id="subject"
+                        name="uploadFile"
+                        accept="image/*, video/*"
+                        placeholder="Subject"
+                      />
+                      <label for="subject">Upload File</label>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="form-floating">
+                      <textarea
+                        class="form-control"
+                        placeholder="Leave a message here"
+                        id="message"
+                        name="description"
+                        style="height: 100px"
+                      ></textarea>
+                      <label for="message">Description</label>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <button class="btn btn-primary w-100 py-3" type="submit">
+                      Upload
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <!-- <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
+            <div class="h-100" style="min-height: 400px">
+              <iframe
+                class="rounded w-100 h-100"
+                src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCYKGoBvxSupFJ5cnNqDf0cRMhYPKRckE0
+                &q=D-7+Opposite+Laxmi+Villa+Apartments+Kabir+Marg+Bani+Park+Jaipur - 302016 Rajasthan, India"
+                frameborder="0"
+                allowfullscreen=""
+                aria-hidden="false"
+                tabindex="0"
+              ></iframe>
+            </div>
+          </div> -->
+        </div>
+      </div>
+    </div>
+    <!-- Contact End -->
+
+    @@include('footer.htm') @@include('footer-includes.htm')
+
+    <script></script>
+  </body>
+</html>

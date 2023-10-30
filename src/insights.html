@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Dr. Nitin Gupta | Orthopedics surgeon</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta content="" name="keywords" />
+    <meta content="" name="description" />
+
+    @@include('header-includes.htm')
+
+    <!-- firebase - setup -->
+
+    <script type="module">
+      // Import the functions you need from the SDKs you need
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+      import {
+        getFirestore,
+        doc,
+        getDocs,
+        collection,
+        query,
+      } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+      import {
+        getStorage,
+        ref,
+        uploadBytes,
+        getDownloadURL,
+      } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-storage.js";
+      // TODO: Add SDKs for Firebase products that you want to use
+      // https://firebase.google.com/docs/web/setup#available-libraries
+
+      // Your web app's Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyBdx0t7yfI8LJjnTg999tJKTKvjur5qnVc",
+        authDomain: "dr-nitin-gupta.firebaseapp.com",
+        projectId: "dr-nitin-gupta",
+        storageBucket: "dr-nitin-gupta.appspot.com",
+        messagingSenderId: "874167543801",
+        appId: "1:874167543801:web:668f67d00ec9dd393cff28",
+      };
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      // Initialize Cloud Firestore and get a reference to the service
+      const db = getFirestore(app);
+      // const dbRef = collection(db, "insights");
+
+      const dbRef = collection(db, "insights");
+      // const docSnap = await getDoc(dbRef);
+
+      const q = query(dbRef);
+
+      const querySnapshot = await getDocs(q);
+
+      var existingElement = document.getElementById("content-ref");
+      var newDiv = document.createElement("div");
+
+      // Optionally, add some content to the <div>
+      // newDiv.innerHTML = "This is a new div.";
+
+      // Append the <div> to an existing element in the document
+      // existingElement.appendChild(newDiv);
+
+      querySnapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+
+        const description = doc.data().description;
+        const blogTitle = doc.data().title;
+        const imageSrc = doc.data().fileUrl;
+        const altText = doc.data().fileName;
+        const contentType = doc.data().fileType.split("/")[0];
+        const tagData =
+          contentType === "image"
+            ? `<img
+                       src="${imageSrc}"
+                       controls
+                       width="100%"
+                       alt="${altText}"
+                     />`
+            : `<video
+                     src="${imageSrc}"
+                       autoplay
+                       controls
+                       width="100%"
+                       alt="${altText}"
+                     />`;
+
+        existingElement.innerHTML =
+          `<div class="container-xxl py-5">
+         <div class="container">
+           <div class="row g-5">
+             <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.5s">
+               <div class="rounded h-100 d-flex align-items-center p-5">
+                 ${tagData}
+
+               </div>
+             </div>
+             <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
+               <h3 class="mb-4">${blogTitle}</h3>
+               <p class="mb-4">
+                 ${description}
+               </p>
+
+             </div>
+           </div>
+         </div>
+       </div>` + existingElement.innerHTML;
+        console.log(doc.id, " => ", doc.data());
+      });
+
+      // if (docSnap.exists()) {
+      //   console.log("Document data:", docSnap.data());
+      // } else {
+      //   // docSnap.data() will be undefined in this case
+      //   console.log("No such document!");
+      // }
+      // const storage = getStorage();
+    </script>
+  </head>
+
+  <body>
+    @@include('navbar.htm', {"insights": "active"})
+
+    <!-- Page Header Start -->
+    <div
+      class="container-fluid page-header py-5 mb-5 wow fadeIn"
+      data-wow-delay="0.1s"
+    >
+      <div class="container py-5">
+        <h1 class="display-3 text-white mb-3 animated slideInDown">Insights</h1>
+        <nav aria-label="breadcrumb animated slideInDown">
+          <ol class="breadcrumb text-uppercase mb-0">
+            <li class="breadcrumb-item">
+              <a class="text-white" href="#">Home</a>
+            </li>
+            <li class="breadcrumb-item">
+              <a class="text-white" href="#">Pages</a>
+            </li>
+            <li class="breadcrumb-item text-primary active" aria-current="page">
+              Insights
+            </li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+    <!-- Page Header End -->
+
+    <!-- Appointment Start -->
+
+    <div id="content-ref">
+      <div class="container-xxl py-5">
+        <div class="container">
+          <div class="row g-5">
+            <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
+              <h3 class="mb-4">
+                We bring back all joint movement. Patient able to do normal day
+                to day activity. Happy Patient!!!
+              </h3>
+              <p class="mb-4">
+                As physical therapists, our ultimate goal is to help patients
+                regain their physical function and get back to their normal
+                daily activities. One of the most rewarding aspects of our work
+                is seeing our patients achieve their goals and experiencing
+                their joy and satisfaction. We take great pride in being able to
+                bring back joint movement for our patients and see them return
+                to their normal range of motion. Whether it's through exercises,
+                manual therapy, or other techniques, we work tirelessly to help
+                our patients achieve their desired outcomes. We believe that
+                every patient deserves to feel happy and fulfilled with their
+                physical abilities, and it's our pleasure to help make that a
+                reality. Seeing the smiles on our patients' faces as they are
+                able to resume their day-to-day activities is truly the greatest
+                reward for us as physical therapists.
+              </p>
+              <!-- <div
+              class="bg-light rounded d-flex align-items-center p-1 py-4 mb-4"
+            >
+              <img src="./img/orthopedics-2.jpg" width="100%" alt="" />
+            </div> -->
+            </div>
+            <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.5s">
+              <div class="rounded h-100 d-flex align-items-center p-5">
+                <video
+                  src="./videos/video-1.mp4"
+                  autoplay
+                  controls
+                  width="100%"
+                  alt=""
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="container-xxl py-5">
+        <div class="container">
+          <div class="row g-5">
+            <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.5s">
+              <div class="rounded h-100 d-flex align-items-center p-5">
+                <video
+                  src="./videos/video-2.mp4"
+                  controls
+                  width="100%"
+                  alt=""
+                />
+              </div>
+            </div>
+            <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
+              <h3 class="mb-4">World Arthritis Day!!!</h3>
+              <p class="mb-4">
+                World Arthritis Day is an annual event observed globally on
+                October 12th to raise awareness about arthritis, a condition
+                that affects millions of people worldwide. This day serves as an
+                opportunity for individuals and organizations to come together
+                and promote awareness about arthritis, its symptoms, and the
+                impact it has on people's lives. It also highlights the
+                importance of early diagnosis and proper management of arthritis
+                to improve the quality of life of those affected. World
+                Arthritis Day aims to promote research into the causes and
+                treatment of arthritis, as well as encourage support for those
+                living with this condition. It is a day for people with
+                arthritis to come together, share their experiences, and find
+                support from one another. By promoting understanding and
+                awareness about arthritis, we can help reduce the impact of this
+                condition on individuals and society as a whole.
+              </p>
+              <!-- <div
+              class="bg-light rounded d-flex align-items-center p-1 py-4 mb-4"
+            >
+              <img src="./img/orthopedics-2.jpg" width="100%" alt="" />
+            </div> -->
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="container-xxl py-5">
+        <div class="container">
+          <div class="row g-5">
+            <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
+              <h3 class="mb-4">
+                There is no restriction of movement. Able to move through full
+                range of motion without any pain.
+              </h3>
+              <p class="mb-4">
+                As physical therapists, we understand the importance of movement
+                and its impact on our patients' daily lives. One of our primary
+                goals is to help patients achieve pain-free movement, allowing
+                them to return to their normal activities without restriction.
+                We take a comprehensive approach to patient care, using a
+                variety of techniques and exercises tailored to each patient's
+                specific needs. Our focus is on restoring the body's natural
+                range of motion while minimizing pain and discomfort. We work
+                closely with our patients to develop personalized treatment
+                plans that include stretching, strengthening, and other forms of
+                therapy to help them achieve their movement goals. When our
+                patients can move through their full range of motion without any
+                pain, it's a testament to the effectiveness of our treatments
+                and the hard work of both the patient and therapist. Seeing our
+                patients regain their mobility and return to the activities they
+                enjoy is one of the most rewarding aspects of our work.
+              </p>
+              <!-- <div
+              class="bg-light rounded d-flex align-items-center p-1 py-4 mb-4"
+            >
+              <img src="./img/orthopedics-2.jpg" width="100%" alt="" />
+            </div> -->
+            </div>
+            <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.5s">
+              <div class="rounded h-100 d-flex align-items-center p-5">
+                <video
+                  src="./videos/video-3.mp4"
+                  controls
+                  width="100%"
+                  alt=""
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container-xxl py-5">
+        <div class="container">
+          <div class="row g-5">
+            <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.5s">
+              <div class="rounded h-100 d-flex align-items-center p-5">
+                <img src="./img/image-5.webp" controls width="100%" alt="" />
+              </div>
+            </div>
+            <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.5s">
+              <div class="rounded h-100 d-flex align-items-center p-5">
+                <video
+                  src="./videos/video-5.mp4"
+                  controls
+                  width="100%"
+                  height="300px"
+                  alt=""
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container-xxl py-5">
+        <div class="container">
+          <div class="row g-5">
+            <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.5s">
+              <div class="rounded h-100 d-flex align-items-center p-5">
+                <img src="./img/image-6.avif" controls width="100%" alt="" />
+              </div>
+            </div>
+            <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
+              <h3 class="mb-4">WHY SHOULD YOUNG HAVE ALL THE FUN!!!</h3>
+              <p class="mb-4">
+                The phrase "Why should young have all the fun?" is particularly
+                relevant when it comes to patients who have undergone bilateral
+                total knee replacement. This procedure is often performed on
+                older patients who may have experienced years of joint pain and
+                limited mobility. But just because someone has undergone this
+                surgery doesn't mean they have to give up on their favorite
+                activities or stop living life to the fullest. In fact, with
+                proper rehabilitation and dedication, many patients are able to
+                resume their normal routines and even take on new challenges.
+                <br />
+                For example, we recently had a patient who underwent bilateral
+                total knee replacement and was determined to regain their
+                mobility and independence. With the help of physical therapy,
+                they were able to gradually increase their strength and
+                flexibility, and within eight years of the surgery, they were
+                able to do all their routine activities without any issues. They
+                were even able to take up new activities like hiking and
+                swimming, something they never thought would be possible after
+                their surgery. This patient's experience is a powerful testament
+                to the idea that age and surgery should never limit one's
+                ability to enjoy life and do the things they love. With the
+                right mindset, support, and therapy, patients can overcome the
+                challenges of joint replacement surgery and continue to have fun
+                and live life to the fullest, no matter their age.
+              </p>
+              <!-- <div
+              class="bg-light rounded d-flex align-items-center p-1 py-4 mb-4"
+            >
+              <img src="./img/orthopedics-2.jpg" width="100%" alt="" />
+            </div> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Appointment End -->
+
+    @@include('footer.htm') @@include('footer-includes.htm')
+  </body>
+</html>
