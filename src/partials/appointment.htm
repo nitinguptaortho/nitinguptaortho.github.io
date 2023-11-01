@@ -1,0 +1,124 @@
+<!-- Appointment Start -->
+<div class="container-xxl py-5">
+  <div class="container">
+    <div class="row g-5">
+      <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
+        <p class="d-inline-block border rounded-pill py-1 px-4">Appointment</p>
+        <h1 class="mb-4">Make an Appointment to Visit Dr. Nitin Gupta</h1>
+        <p class="mb-4">
+          Book your appointment now to receive expert medical care from Dr.
+          Nitin Gupta in a welcoming and positive environment. Our clinic offers
+          personalized treatment plans and experienced care to ensure you get
+          the attention you deserve. Don't wait - schedule your appointment
+          today!
+        </p>
+        <div class="bg-light rounded d-flex align-items-center p-5 mb-4">
+          <div
+            class="d-flex flex-shrink-0 align-items-center justify-content-center rounded-circle bg-white"
+            style="width: 55px; height: 55px"
+          >
+            <i class="fa fa-phone-alt text-primary"></i>
+          </div>
+          <div class="ms-4">
+            <p class="mb-2">Call Us Now</p>
+            <h5 class="mb-0">
+              <a href="tel:+91 9772058476">Tel: +91 9772058476</a>
+            </h5>
+          </div>
+        </div>
+        <div class="bg-light rounded d-flex align-items-center p-5">
+          <div
+            class="d-flex flex-shrink-0 align-items-center justify-content-center rounded-circle bg-white"
+            style="width: 55px; height: 55px"
+          >
+            <i class="fa fa-envelope-open text-primary"></i>
+          </div>
+          <div class="ms-4">
+            <p class="mb-2">Mail Us Now</p>
+            <h5 class="mb-0">
+              <a href="mailto:nitingupta9@hotmail.com">
+                nitingupta9@hotmail.com
+              </a>
+            </h5>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.5s">
+        <div class="bg-light rounded h-100 d-flex align-items-center p-5">
+          <!-- action="https://formspree.io/f/mvonlwow" Can be used later IDK -->
+          <form id="contact-form">
+            <div class="row g-3">
+              <div
+                class="col-12 flex justify-content-center align-items-center text-center w-100"
+              >
+                <h2>
+                  <!-- <i class="fa fa-pen text-primary fs-5"></i> -->
+                  Book An Appointment Now
+                </h2>
+              </div>
+              <div class="col-12">
+                <input
+                  type="text"
+                  name="name"
+                  class="form-control border-0"
+                  placeholder="You Name"
+                  style="height: 55px"
+                  id="username"
+                />
+              </div>
+              <div class="col-12">
+                <textarea
+                  type="text"
+                  name="message"
+                  class="form-control border-0"
+                  placeholder="Message"
+                  style="height: 100px"
+                  id="usermessage"
+                ></textarea>
+              </div>
+              <script>
+                var contactForm = document.getElementById("contact-form");
+
+                contactForm.addEventListener("submit", (e) => {
+                  e.preventDefault();
+                  sendMessage();
+                });
+                function sendMessage() {
+                  var name = document.getElementById("username");
+                  var message = document.getElementById("usermessage");
+
+                  if (!name) {
+                    return;
+                  }
+
+                  console.log(name.value);
+
+                  var link = document.createElement("a");
+                  link.href = encodeURI(
+                    `https://wa.me/919772058476?text=Appointment Request. Hi, My name is ${name.value}. ${message.value}`
+                  );
+
+                  link.click();
+                }
+              </script>
+              <!-- <div class="col-12 col-sm-6">
+                                      <select class="form-select border-0" style="height: 55px;">
+                                          <option selected>Choose Doctor</option>
+                                          <option value="1">Doctor 1</option>
+                                          <option value="2">Doctor 2</option>
+                                          <option value="3">Doctor 3</option>
+                                      </select>
+                                  </div> -->
+              <div class="col-12">
+                <button class="btn btn-primary w-100 py-3" type="submit">
+                  Book Appointment
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Appointment End -->
