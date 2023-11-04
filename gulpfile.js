@@ -36,7 +36,7 @@ gulp.task("html", () => {
 gulp.task("copy-assets", async function () {
   const imagemin = await import("gulp-imagemin");
   return gulp
-    .src(["src/assets/**"])
+    .src(["src/img/**"])
     .pipe(
       imagemin.default([
         imagemin.mozjpeg({ quality: 75, progressive: true }),
